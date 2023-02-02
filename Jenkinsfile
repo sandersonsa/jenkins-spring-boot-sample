@@ -7,7 +7,7 @@ pipeline {
   }
 
   stages {
-    /*stage('Build') {
+    stage('Build') {
       steps {
         echo 'Building..'
 
@@ -62,7 +62,7 @@ pipeline {
           }
         }
       }
-    }*/
+    }
     stage('Deploy opentlc') {
       steps {
         echo 'Deploying on opentlc'
