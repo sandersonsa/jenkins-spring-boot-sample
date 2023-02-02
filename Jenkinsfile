@@ -68,9 +68,9 @@ pipeline {
         echo 'Deploying on opentlc'
         script {
           openshift.withCluster('homol') {
-            openshift.withProject("app-pipeline-hml11") {
+            openshift.withProject("app-pipeline-hml") {
 
-              def deployment = openshift.selector("dc", "spring-boot-sample")
+              /*def deployment = openshift.selector("dc", "spring-boot-sample")
 
               if(!deployment.exists()){
                 openshift.newApp('spring-boot-sample', "--as-deployment-config").narrow('svc').expose()
@@ -80,7 +80,7 @@ pipeline {
                 openshift.selector("dc", "spring-boot-sample").related('pods').untilEach(1) {
                   return (it.object().status.phase == "Running")
                   }
-                }
+                }*/
 
             }
 
