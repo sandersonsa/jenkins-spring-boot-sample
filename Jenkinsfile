@@ -64,4 +64,31 @@ pipeline {
       }
     }
   }
+
+  stage('Deploy opentlc') {
+      steps {
+        echo 'Deploying....'
+        script {
+          openshift.withCluster() {
+            openshift.withProject("app-pipeline-hml") {
+
+              def deployment = openshift.selector("dc", "spring-boot-sample")
+
+              if(!deployment.exists()){
+                openshift.newApp('spring-boot-sample', "--as-deployment-config").narrow('svc').expose()
+              }
+
+              timeout(5) { 
+                openshift.selector("dc", "spring-boot-sample").related('pods').untilEach(1) {
+                  return (it.object().status.phase == "Running")
+                  }
+                }
+
+            }
+
+          }
+        }
+      }
+    }
+  }
 }
