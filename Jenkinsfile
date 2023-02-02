@@ -6,8 +6,8 @@ pipeline {
     label 'maven'
   }
 
-  /*stages {
-    stage('Build') {
+  stages {
+    /*stage('Build') {
       steps {
         echo 'Building..'
 
