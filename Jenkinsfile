@@ -65,9 +65,9 @@ pipeline {
     }*/
     stage('Deploy opentlc') {
       steps {
-        echo 'Deploying....'
+        echo 'Deploying on opentlc'
         script {
-          openshift.withCluster('homol', 'opentlc-token' ) {
+          openshift.withCluster('homol') {
             openshift.withProject("app-pipeline-hml") {
 
               def deployment = openshift.selector("dc", "spring-boot-sample")
