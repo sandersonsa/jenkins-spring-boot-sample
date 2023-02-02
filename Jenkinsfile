@@ -63,9 +63,7 @@ pipeline {
         }
       }
     }
-  }
-
-  stage('Deploy opentlc') {
+    stage('Deploy opentlc') {
       steps {
         echo 'Deploying....'
         script {
