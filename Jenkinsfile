@@ -15,7 +15,7 @@ pipeline {
         
       }
     }
-    stage('Create Container Image') {
+    /*stage('Create Container Image') {
       steps {
         echo 'Create Container Image..'
         
@@ -62,7 +62,7 @@ pipeline {
           }
         }
       }
-    }
+    }*/
     stage('Deploy opentlc') {
       steps {
         echo 'Deploying....'
