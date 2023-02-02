@@ -6,7 +6,7 @@ pipeline {
     label 'maven'
   }
 
-  stages {
+  /*stages {
     stage('Build') {
       steps {
         echo 'Building..'
@@ -15,7 +15,7 @@ pipeline {
         
       }
     }
-    /*stage('Create Container Image') {
+    stage('Create Container Image') {
       steps {
         echo 'Create Container Image..'
         
