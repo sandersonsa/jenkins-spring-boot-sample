@@ -30,6 +30,8 @@ pipeline {
 
                 openshift.selector("bc", "spring-boot-sample").startBuild("--from-file=target/spring-boot-sample-0.0.1-SNAPSHOT.jar", "--follow")
 
+                openshift.tag("cicd/spring-boot-sample:latest", "app-pipeline-dev/spring-boot-sample:latest")
+
             }
 
           }
