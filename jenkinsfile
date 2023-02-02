@@ -21,7 +21,7 @@ pipeline {
         
         script {
           openshift.withCluster() {
-            openshift.withProject("app-pipeline-dev") {
+            openshift.withProject("cicd") {
                 def buildConfigExists = openshift.selector("bc", "spring-boot-sample").exists()
 
                 if(!buildConfigExists){
@@ -43,7 +43,7 @@ pipeline {
           openshift.withCluster() {
             openshift.withProject("app-pipeline-dev") {
 
-              def deployment = openshift.selector("dc", "codelikethewind")
+              def deployment = openshift.selector("dc", "spring-boot-sample")
 
               if(!deployment.exists()){
                 openshift.newApp('spring-boot-sample', "--as-deployment-config").narrow('svc').expose()
