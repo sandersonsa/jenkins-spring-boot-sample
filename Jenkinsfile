@@ -70,9 +70,11 @@ pipeline {
           openshift.withCluster('homol') {
             openshift.withProject("app-pipeline-hml") {
 
-              /*def deployment = openshift.selector("dc", "spring-boot-sample")
+              def deployment = openshift.selector("dc", "spring-boot-sample")
 
-              if(!deployment.exists()){
+              echo "deployment: ${deployment}"
+
+              /*if(!deployment.exists()){
                 openshift.newApp('spring-boot-sample', "--as-deployment-config").narrow('svc').expose()
               }
 
