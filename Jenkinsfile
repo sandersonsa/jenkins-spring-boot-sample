@@ -26,11 +26,11 @@ pipeline {
               cat << 'EOF' >~/.docker/config.json
               {
                 "auths": {
-                  "https://default-route-openshift-image-registry.apps-crc.testing": {
+                  "$REGISTRY_CRC": {
                     "auth": "$CRC",
                     "email": "you@example.com"
                   },
-                  "https://default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com": {
+                  "$REGISTRY_OPENTLC": {
                     "auth": "$OPENTLC",
                     "email": "you@example.com"
                   }
