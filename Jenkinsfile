@@ -99,14 +99,24 @@ pipeline {
     }
     stage('Promote to opentlc') {
       steps {
-        script {
-          //usa ~/.docker/config.json gerado no passo de config
-          sh """
-                oc image mirror --insecure=true default-route-openshift-image-registry.apps-crc.testing/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com/app-pipeline-hml/spring-boot-sample:latest 
-             """
-          }
-        }
-      }
+        //withDockerRegistry([credentialsId: "source-credentials", url: "source-registry-url"]) {
+            ///withDockerRegistry([credentialsId: "destination-credentials", url: "destination-registry-url"]) {
+              script {
+               //usa ~/.docker/config.json gerado no passo de config
+               
+               /*
+                 Documentação
+                 https://access.redhat.com/solutions/5686371
+                 https://github.com/jenkinsci/openshift-client-plugin/blob/master/README.md#configuring-an-openshift-cluster
+               */
+               sh """
+                     oc image mirror --insecure=true default-route-openshift-image-registry.apps-crc.testing/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com/app-pipeline-hml/spring-boot-sample:latest 
+                  """
+              }
+            }
+          //}
+        //}
+    }
     stage('Deploy opentlc') {
       steps {
         echo 'Deploying on opentlc'
