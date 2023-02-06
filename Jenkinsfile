@@ -86,7 +86,7 @@ pipeline {
             """*/
           sh """
               rm ~/.docker/config.json
-              cat <<EOF >~/.docker/config.json
+              cat << 'EOF' >~/.docker/config.json
               {
                 "auths": {
                   "image-registry.openshift-image-registry.svc": {
@@ -99,7 +99,7 @@ pipeline {
                   }
                 }
               }
-              EOF
+              'EOF'
             """          
 
           sh "cat ~/.docker/config.json"
