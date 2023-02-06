@@ -89,11 +89,11 @@ pipeline {
               cat << 'EOF' >~/.docker/config.json
               {
                 "auths": {
-                  "image-registry.openshift-image-registry.svc": {
+                  "https://default-route-openshift-image-registry.apps-crc.testing": {
                     "auth": "a3ViZWFkbWluOnNoYTI1Nn5VSDdWS3JMYUVBWGZUd1pMX250a2k1eGZjbEFfSUlBTmk2SGhlY1FmYVhn",
                     "email": "you@example.com"
                   },
-                  "default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com": {
+                  "https://default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com": {
                     "auth": "b3BlbnRsYy1tZ3I6c2hhMjU2fnUweUhacmpTNmFoX3d1TV9iaWV2M1NXcENGaXBxQTlmRzNTSWNvRlk3MG8=",
                     "email": "you@example.com"
                   }
@@ -104,7 +104,7 @@ pipeline {
           sh "cat ~/.docker/config.json"
 
           sh """
-                oc image mirror --insecure=true image-registry.openshift-image-registry.svc:5000/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com:443/app-pipeline-hml/spring-boot-sample:latest 
+                oc image mirror --insecure=true default-route-openshift-image-registry.apps-crc.testing:443/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com:443/app-pipeline-hml/spring-boot-sample:latest 
              """
 
           }
