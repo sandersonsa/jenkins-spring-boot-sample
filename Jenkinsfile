@@ -21,12 +21,6 @@ pipeline {
       steps {
         echo 'Configurations..'
         
-        /*withPodmanRegistry([credentialsId: "crc-user", url: "https://$REGISTRY_CRC"]) {
-          echo 'Teste dockerRegistry..'
-        }*/
-        sh "podman login -u $USER_CREDENTIALS_OPENTLC_USR: -p$USER_CREDENTIALS_OPENTLC_PSW https://$REGISTRY_CRC"
-        echo 'podman login..'
-
         sh """
               mkdir -p ~/.docker
               cat << 'EOF' >~/.docker/config.json
@@ -106,8 +100,8 @@ pipeline {
     }
     stage('Promote to opentlc') {
       steps {
-        //withDockerRegistry([credentialsId: "source-credentials", url: "$REGISTRY_CRC"]) {
-            ///withDockerRegistry([credentialsId: "destination-credentials", url: "$REGISTRY_OPENTLC"]) {
+        //withDockerRegistry([credentialsId: "crc-user", url: "$REGISTRY_CRC"]) {
+            ///withDockerRegistry([credentialsId: "opentlc-user", url: "$REGISTRY_OPENTLC"]) {
               script {
                //usa ~/.docker/config.json gerado no passo de config
                
