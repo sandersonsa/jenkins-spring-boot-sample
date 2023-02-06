@@ -10,6 +10,7 @@ pipeline {
     
     stage('Config') {
       
+      //Aternativamente ao withDockerRegistry
       environment {
         USER_CREDENTIALS_OPENTLC = credentials('opentlc-user')
         USER_CREDENTIALS_CRC = credentials('crc-user')
