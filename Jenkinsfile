@@ -20,7 +20,11 @@ pipeline {
 
       steps {
         echo 'Configurations..'
-
+        
+        withDockerRegistry([credentialsId: "crc-user", url: "$REGISTRY_CRC"]) {
+          echo 'Teste dockerRegistry..'
+        }
+        
         sh """
               mkdir -p ~/.docker
               cat << 'EOF' >~/.docker/config.json
@@ -100,8 +104,8 @@ pipeline {
     }
     stage('Promote to opentlc') {
       steps {
-        //withDockerRegistry([credentialsId: "source-credentials", url: "source-registry-url"]) {
-            ///withDockerRegistry([credentialsId: "destination-credentials", url: "destination-registry-url"]) {
+        //withDockerRegistry([credentialsId: "source-credentials", url: "$REGISTRY_CRC"]) {
+            ///withDockerRegistry([credentialsId: "destination-credentials", url: "$REGISTRY_OPENTLC"]) {
               script {
                //usa ~/.docker/config.json gerado no passo de config
                
