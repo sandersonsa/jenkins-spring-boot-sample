@@ -99,7 +99,6 @@ pipeline {
                   }
                 }
               }
-              'EOF'
             """          
 
           sh "cat ~/.docker/config.json"
