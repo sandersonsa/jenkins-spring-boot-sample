@@ -69,7 +69,7 @@ pipeline {
         //withDockerRegistry([credentialsId: "crc-kubeadmin", url: "https://api.crc.testing:6443"]) {
           //sh "cat ~/.docker/config.json"
 
-          sh """
+          /*sh """
               echo '{' > ~/.docker/config.json
               echo '  "auths": {' >> ~/.docker/config.json
               echo '    "image-registry.openshift-image-registry.svc": {' >> ~/.docker/config.json
@@ -83,8 +83,24 @@ pipeline {
               echo '  }' >> ~/.docker/config.json
               echo '}' >> ~/.docker/config.json
 
-            """
-
+            """*/
+          sh """
+              cat << 'EOF' >~/.docker/config.json
+              {
+                "auths": {
+                  "image-registry.openshift-image-registry.svc": {
+                    "auth": "a3ViZWFkbWluOnNoYTI1Nn5VSDdWS3JMYUVBWGZUd1pMX250a2k1eGZjbEFfSUlBTmk2SGhlY1FmYVhn",
+                    "email": "you@example.com"
+                  },
+                  "default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com": {
+                    "auth": "b3BlbnRsYy1tZ3I6c2hhMjU2fnUweUhacmpTNmFoX3d1TV9iaWV2M1NXcENGaXBxQTlmRzNTSWNvRlk3MG8=",
+                    "email": "you@example.com"
+                  }
+                }
+              }
+              EOF
+            """          
+            
           sh "cat ~/.docker/config.json"
 
           sh """
