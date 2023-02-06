@@ -21,7 +21,7 @@ pipeline {
       steps {
         echo 'Configurations..'
         
-        withDockerRegistry([credentialsId: "crc-user", url: "$REGISTRY_CRC"]) {
+        withDockerRegistry([credentialsId: "crc-user", url: "https://$REGISTRY_CRC"]) {
           echo 'Teste dockerRegistry..'
         }
         
