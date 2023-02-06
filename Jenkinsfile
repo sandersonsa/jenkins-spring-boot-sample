@@ -67,7 +67,7 @@ pipeline {
       steps {
         script {
         //withDockerRegistry([credentialsId: "crc-kubeadmin", url: "https://api.crc.testing:6443"]) {
-          sh "cat ~/.docker/config.json"
+          //sh "cat ~/.docker/config.json"
 
           sh """
               echo '{' > ~/.docker/config.json
