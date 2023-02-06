@@ -26,11 +26,11 @@ pipeline {
               cat << 'EOF' >~/.docker/config.json
               {
                 "auths": {
-                  "$REGISTRY_CRC": {
+                  "https://$REGISTRY_CRC": {
                     "auth": "$CRC",
                     "email": "you@example.com"
                   },
-                  "$REGISTRY_OPENTLC": {
+                  "https://$REGISTRY_OPENTLC": {
                     "auth": "$OPENTLC",
                     "email": "you@example.com"
                   }
@@ -111,7 +111,7 @@ pipeline {
                  https://github.com/jenkinsci/openshift-client-plugin/blob/master/README.md#configuring-an-openshift-cluster
                */
                sh """
-                     oc image mirror --insecure=true default-route-openshift-image-registry.apps-crc.testing/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com/app-pipeline-hml/spring-boot-sample:latest 
+                     oc image mirror --insecure=true $REGISTRY_CRC/cicd/spring-boot-sample:latest $REGISTRY_OPENTLC/app-pipeline-hml/spring-boot-sample:latest 
                   """
               }
             }
