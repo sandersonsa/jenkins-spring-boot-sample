@@ -22,10 +22,30 @@ pipeline {
         sh "echo $USER_CREDENTIALS_OPENTLC_PSW"
 
         sh "echo USER_CREDENTIALS_CRC"
-        sh "echo $USER_CREDENTIALS_OPENTLC_USR"
-        sh "echo $USER_CREDENTIALS_OPENTLC_PSW"
+        sh "echo $USER_CREDENTIALS_CRC_USR"
+        sh "echo $USER_CREDENTIALS_CRC_PSW"
+
+        export OPENTLC=$(echo -n USER_CREDENTIALS_OPENTLC_USR:USER_CREDENTIALS_OPENTLC_PSW | base64 -w0)
+        export CRC=$(echo -n USER_CREDENTIALS_CRC_USR:USER_CREDENTIALS_CRC_PSW | base64 -w0)
 
         sh """
+              rm ~/.docker/config.json
+              cat << 'EOF' >~/.docker/config.json
+              {
+                "auths": {
+                  "https://default-route-openshift-image-registry.apps-crc.testing": {
+                    "auth": "$CRC",
+                    "email": "you@example.com"
+                  },
+                  "https://default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com": {
+                    "auth": "$OPENTLC",
+                    "email": "you@example.com"
+                  }
+                }
+              }
+           """
+
+        /*sh """
               rm ~/.docker/config.json
               cat << 'EOF' >~/.docker/config.json
               {
@@ -40,7 +60,9 @@ pipeline {
                   }
                 }
               }
-            """  
+           """*/
+
+        sh "cat ~/.docker/config.json"  
       }
     }
 
@@ -75,7 +97,7 @@ pipeline {
         }
       }
     }
-    stage('Deploy') {
+    stage('Deploy on CRC') {
       steps {
         echo 'Deploying....'
         script {
@@ -103,32 +125,10 @@ pipeline {
     stage('Promote to opentlc') {
       steps {
         script {
-        //withDockerRegistry([credentialsId: "crc-kubeadmin", url: "https://api.crc.testing:6443"]) {
-          //sh "cat ~/.docker/config.json"
-
-          /*sh """
-              echo '{' > ~/.docker/config.json
-              echo '  "auths": {' >> ~/.docker/config.json
-              echo '    "image-registry.openshift-image-registry.svc": {' >> ~/.docker/config.json
-              echo '      "auth": "a3ViZWFkbWluOnNoYTI1Nn5VSDdWS3JMYUVBWGZUd1pMX250a2k1eGZjbEFfSUlBTmk2SGhlY1FmYVhn",' >> ~/.docker/config.json
-              echo '      "email": "you@example.com"' >> ~/.docker/config.json
-              echo '    },' >> ~/.docker/config.json
-              echo '    "default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com": {' >> ~/.docker/config.json
-              echo '      "auth": "b3BlbnRsYy1tZ3I6c2hhMjU2fnUweUhacmpTNmFoX3d1TV9iaWV2M1NXcENGaXBxQTlmRzNTSWNvRlk3MG8=",' >> ~/.docker/config.json
-              echo '      "email": "you@example.com"' >> ~/.docker/config.json
-              echo '    }' >> ~/.docker/config.json
-              echo '  }' >> ~/.docker/config.json
-              echo '}' >> ~/.docker/config.json
-
-            """*/
-                  
-
-          sh "cat ~/.docker/config.json"
-
+          //usa ~/.docker/config.json gerado no passo de config
           sh """
                 oc image mirror --insecure=true default-route-openshift-image-registry.apps-crc.testing/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com/app-pipeline-hml/spring-boot-sample:latest 
              """
-
           }
         }
       }
