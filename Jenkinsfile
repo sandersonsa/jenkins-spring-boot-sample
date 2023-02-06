@@ -37,24 +37,7 @@ pipeline {
               }
            """
 
-        /*sh """
-              rm ~/.docker/config.json
-              cat << 'EOF' >~/.docker/config.json
-              {
-                "auths": {
-                  "https://default-route-openshift-image-registry.apps-crc.testing": {
-                    "auth": "a3ViZWFkbWluOnNoYTI1Nn5VSDdWS3JMYUVBWGZUd1pMX250a2k1eGZjbEFfSUlBTmk2SGhlY1FmYVhn",
-                    "email": "you@example.com"
-                  },
-                  "https://default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com": {
-                    "auth": "b3BlbnRsYy1tZ3I6c2hhMjU2fnUweUhacmpTNmFoX3d1TV9iaWV2M1NXcENGaXBxQTlmRzNTSWNvRlk3MG8=",
-                    "email": "you@example.com"
-                  }
-                }
-              }
-           """*/
-
-        sh "cat ~/.docker/config.json"  
+        //sh "cat ~/.docker/config.json"  
       }
     }
 
