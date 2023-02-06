@@ -21,10 +21,12 @@ pipeline {
       steps {
         echo 'Configurations..'
         
-        withPodmanRegistry([credentialsId: "crc-user", url: "https://$REGISTRY_CRC"]) {
+        /*withPodmanRegistry([credentialsId: "crc-user", url: "https://$REGISTRY_CRC"]) {
           echo 'Teste dockerRegistry..'
-        }
-        
+        }*/
+        sh "podman login -u $USER_CREDENTIALS_OPENTLC_USR: -p$USER_CREDENTIALS_OPENTLC_PSW https://$REGISTRY_CRC"
+        echo 'podman login..'
+
         sh """
               mkdir -p ~/.docker
               cat << 'EOF' >~/.docker/config.json
