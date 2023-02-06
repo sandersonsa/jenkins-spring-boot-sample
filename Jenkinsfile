@@ -141,11 +141,11 @@ pipeline {
                 openshift.newApp('spring-boot-sample', "--as-deployment-config").narrow('svc').expose()
               }
 
-              timeout(5) { 
+              /*timeout(5) { 
                 openshift.selector("dc", "spring-boot-sample").related('pods').untilEach(1) {
                   return (it.object().status.phase == "Running")
                   }
-                }
+                }*/
 
             }
 
