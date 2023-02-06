@@ -85,7 +85,7 @@ pipeline {
 
             """*/
           sh """
-              
+              rm ~/.docker/config.json
               cat <<EOF >~/.docker/config.json
               {
                 "auths": {
