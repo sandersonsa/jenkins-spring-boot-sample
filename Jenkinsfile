@@ -104,7 +104,7 @@ pipeline {
           sh "cat ~/.docker/config.json"
 
           sh """
-                oc image mirror --insecure=true default-route-openshift-image-registry.apps-crc.testing:443/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com:443/app-pipeline-hml/spring-boot-sample:latest 
+                oc image mirror --insecure=true default-route-openshift-image-registry.apps-crc.testing/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com/app-pipeline-hml/spring-boot-sample:latest 
              """
 
           }
