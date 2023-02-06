@@ -7,11 +7,43 @@ pipeline {
   }
 
   environment {
-        USER_CREDENTIALS_OPENTLC = credentials('opentlc-token')
-        USER_CREDENTIALS_CRC = credentials('crc-token')
+        USER_CREDENTIALS_OPENTLC = credentials('opentlc-user')
+        USER_CREDENTIALS_CRC = credentials('crc-user')
     }
 
   stages {
+    
+    stage('Config') {
+      steps {
+        echo 'Configurations..'
+
+        sh "echo USER_CREDENTIALS_OPENTLC"
+        sh "echo $USER_CREDENTIALS_OPENTLC_USR"
+        sh "echo $USER_CREDENTIALS_OPENTLC_PSW"
+
+        sh "echo USER_CREDENTIALS_CRC"
+        sh "echo $USER_CREDENTIALS_OPENTLC_USR"
+        sh "echo $USER_CREDENTIALS_OPENTLC_PSW"
+
+        sh """
+              rm ~/.docker/config.json
+              cat << 'EOF' >~/.docker/config.json
+              {
+                "auths": {
+                  "https://default-route-openshift-image-registry.apps-crc.testing": {
+                    "auth": "a3ViZWFkbWluOnNoYTI1Nn5VSDdWS3JMYUVBWGZUd1pMX250a2k1eGZjbEFfSUlBTmk2SGhlY1FmYVhn",
+                    "email": "you@example.com"
+                  },
+                  "https://default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com": {
+                    "auth": "b3BlbnRsYy1tZ3I6c2hhMjU2fnUweUhacmpTNmFoX3d1TV9iaWV2M1NXcENGaXBxQTlmRzNTSWNvRlk3MG8=",
+                    "email": "you@example.com"
+                  }
+                }
+              }
+            """  
+      }
+    }
+
     stage('Build') {
       steps {
         echo 'Building..'
@@ -89,22 +121,7 @@ pipeline {
               echo '}' >> ~/.docker/config.json
 
             """*/
-          sh """
-              rm ~/.docker/config.json
-              cat << 'EOF' >~/.docker/config.json
-              {
-                "auths": {
-                  "https://default-route-openshift-image-registry.apps-crc.testing": {
-                    "auth": "a3ViZWFkbWluOnNoYTI1Nn5VSDdWS3JMYUVBWGZUd1pMX250a2k1eGZjbEFfSUlBTmk2SGhlY1FmYVhn",
-                    "email": "you@example.com"
-                  },
-                  "https://default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com": {
-                    "auth": "b3BlbnRsYy1tZ3I6c2hhMjU2fnUweUhacmpTNmFoX3d1TV9iaWV2M1NXcENGaXBxQTlmRzNTSWNvRlk3MG8=",
-                    "email": "you@example.com"
-                  }
-                }
-              }
-            """          
+                  
 
           sh "cat ~/.docker/config.json"
 
