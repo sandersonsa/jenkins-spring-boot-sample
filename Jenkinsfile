@@ -13,8 +13,8 @@ pipeline {
       environment {
         USER_CREDENTIALS_OPENTLC = credentials('opentlc-user')
         USER_CREDENTIALS_CRC = credentials('crc-user')
-        OPENTLC= sh (returnStdout: true, script: "\$(echo -n '$USER_CREDENTIALS_OPENTLC_USR:$USER_CREDENTIALS_OPENTLC_PSW' | base64 -w0)").trim()
-        CRC= sh (returnStdout: true, script: "\$(echo -n '$USER_CREDENTIALS_CRC_USR:$USER_CREDENTIALS_CRC_PSW' | base64 -w0)").trim()
+        OPENTLC= sh (returnStdout: true, script: "echo -n '$USER_CREDENTIALS_OPENTLC_USR:$USER_CREDENTIALS_OPENTLC_PSW' | base64 -w0").trim()
+        CRC= sh (returnStdout: true, script: "echo -n '$USER_CREDENTIALS_CRC_USR:$USER_CREDENTIALS_CRC_PSW' | base64 -w0").trim()
       }
 
       steps {
