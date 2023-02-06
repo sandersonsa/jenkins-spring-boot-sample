@@ -38,7 +38,7 @@ pipeline {
               }
            """
 
-        //sh "cat ~/.docker/config.json"  
+        sh "cat ~/.docker/config.json"  
       }
     }
 
