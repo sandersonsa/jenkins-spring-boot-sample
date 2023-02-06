@@ -6,6 +6,11 @@ pipeline {
     label 'maven'
   }
 
+  environment {
+        USER_CREDENTIALS_OPENTLC = credentials('opentlc-token')
+        USER_CREDENTIALS_CRC = credentials('crc-token')
+    }
+
   stages {
     stage('Build') {
       steps {
