@@ -67,17 +67,30 @@ pipeline {
       steps {
         script {
         //withDockerRegistry([credentialsId: "crc-kubeadmin", url: "https://api.crc.testing:6443"]) {
-          openshift.withCluster() {
+          sh "cat ~/.docker/config.json"
 
-            //withDockerRegistry([credentialsId: "opentlc-token", url: "https://api.cluster-5ckz7.5ckz7.sandbox118.opentlc.com:6443"]) {
-            openshift.withCluster('homol') {  
+          sh """
+              echo '{' > ~/.docker/config.json
+              echo '  "auths": {' >> ~/.docker/config.json
+              echo '    "image-registry.openshift-image-registry.svc": {' >> ~/.docker/config.json
+              echo '      "auth": "a3ViZWFkbWluOnNoYTI1Nn5VSDdWS3JMYUVBWGZUd1pMX250a2k1eGZjbEFfSUlBTmk2SGhlY1FmYVhn",' >> ~/.docker/config.json
+              echo '      "email": "you@example.com"' >> ~/.docker/config.json
+              echo '    },' >> ~/.docker/config.json
+              echo '    "default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com": {' >> ~/.docker/config.json
+              echo '      "auth": "b3BlbnRsYy1tZ3I6c2hhMjU2fnUweUhacmpTNmFoX3d1TV9iaWV2M1NXcENGaXBxQTlmRzNTSWNvRlk3MG8=",' >> ~/.docker/config.json
+              echo '      "email": "you@example.com"' >> ~/.docker/config.json
+              echo '    }' >> ~/.docker/config.json
+              echo '  }' >> ~/.docker/config.json
+              echo '}' >> ~/.docker/config.json
 
-              sh """
-                  oc image mirror --insecure=true image-registry.openshift-image-registry.svc:5000/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-5ckz7.5ckz7.sandbox118.opentlc.com:443/app-pipeline-hml/spring-boot-sample:latest 
-                """
+            """
 
-              }
-            }
+          sh "cat ~/.docker/config.json"
+
+          sh """
+                oc image mirror --insecure=true image-registry.openshift-image-registry.svc:5000/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-kgzzp.kgzzp.sandbox2948.opentlc.com:443/app-pipeline-hml/spring-boot-sample:latest 
+             """
+
           }
         }
       }
