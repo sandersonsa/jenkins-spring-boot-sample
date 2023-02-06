@@ -25,8 +25,10 @@ pipeline {
         sh "echo $USER_CREDENTIALS_CRC_USR"
         sh "echo $USER_CREDENTIALS_CRC_PSW"
 
-        sh "export OPENTLC=$(echo -n '$USER_CREDENTIALS_OPENTLC_USR:$USER_CREDENTIALS_OPENTLC_PSW' | base64 -w0)"
-        sh "export CRC=$(echo -n '$USER_CREDENTIALS_CRC_USR:$USER_CREDENTIALS_CRC_PSW' | base64 -w0)"
+        sh """
+              export OPENTLC=$(echo -n '$USER_CREDENTIALS_OPENTLC_USR:$USER_CREDENTIALS_OPENTLC_PSW' | base64 -w0)"
+              export CRC=$(echo -n '$USER_CREDENTIALS_CRC_USR:$USER_CREDENTIALS_CRC_PSW' | base64 -w0)"
+           """
 
         sh """
               rm ~/.docker/config.json
