@@ -22,7 +22,7 @@ pipeline {
         echo 'Configurations..'
 
         sh """
-              rm ~/.docker/config.json
+              mkdir -p ~/.docker
               cat << 'EOF' >~/.docker/config.json
               {
                 "auths": {
