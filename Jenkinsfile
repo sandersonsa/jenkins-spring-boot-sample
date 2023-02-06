@@ -65,9 +65,11 @@ pipeline {
     }
     stage('Promote to opentlc') {
       steps {
-        withDockerRegistry([credentialsId: "crc-kubeadmin", url: "https://api.crc.testing:6443"]) {
+        //withDockerRegistry([credentialsId: "crc-kubeadmin", url: "https://api.crc.testing:6443"]) {
+        openshift.withCluster() {  
 
-          withDockerRegistry([credentialsId: "opentlc-token", url: "https://api.cluster-5ckz7.5ckz7.sandbox118.opentlc.com:6443"]) {
+          //withDockerRegistry([credentialsId: "opentlc-token", url: "https://api.cluster-5ckz7.5ckz7.sandbox118.opentlc.com:6443"]) {
+          openshift.withCluster('homol') {  
 
             sh """
                 oc image mirror --insecure=true image-registry.openshift-image-registry.svc:5000/cicd/spring-boot-sample:latest default-route-openshift-image-registry.apps.cluster-5ckz7.5ckz7.sandbox118.opentlc.com:443/app-pipeline-hml/spring-boot-sample:latest 
