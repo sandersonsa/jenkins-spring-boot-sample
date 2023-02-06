@@ -14,19 +14,17 @@ pipeline {
   stages {
     
     stage('Config') {
+      
+      environment {
+        USER_CREDENTIALS_OPENTLC = credentials('opentlc-user')
+        USER_CREDENTIALS_CRC = credentials('crc-user')
+        OPENTLC= sh "\$(echo -n '$USER_CREDENTIALS_OPENTLC_USR:$USER_CREDENTIALS_OPENTLC_PSW' | base64 -w0)"
+        CRC= sh "\$(echo -n '$USER_CREDENTIALS_CRC_USR:$USER_CREDENTIALS_CRC_PSW' | base64 -w0)"
+
+      }
+
       steps {
         echo 'Configurations..'
-
-        sh "echo USER_CREDENTIALS_OPENTLC"
-        sh "echo $USER_CREDENTIALS_OPENTLC_USR"
-        sh "echo $USER_CREDENTIALS_OPENTLC_PSW"
-
-        sh "echo USER_CREDENTIALS_CRC"
-        sh "echo $USER_CREDENTIALS_CRC_USR"
-        sh "echo $USER_CREDENTIALS_CRC_PSW"
-
-        sh "export OPENTLC=\$(echo -n '$USER_CREDENTIALS_OPENTLC_USR:$USER_CREDENTIALS_OPENTLC_PSW' | base64 -w0)"
-        sh "export CRC=\$(echo -n '$USER_CREDENTIALS_CRC_USR:$USER_CREDENTIALS_CRC_PSW' | base64 -w0)"
 
         sh """
               rm ~/.docker/config.json
