@@ -56,7 +56,7 @@ pipeline {
         
         script {
           openshift.withCluster() {
-            openshift.withProject("cicd") {
+            openshift.withProject("redhat-ssa") {
                 def buildConfigExists = openshift.selector("bc", "spring-boot-sample").exists()
 
                 if(!buildConfigExists){
@@ -65,7 +65,7 @@ pipeline {
 
                 openshift.selector("bc", "spring-boot-sample").startBuild("--from-file=target/spring-boot-sample-0.0.1-SNAPSHOT.jar", "--follow")
 
-                openshift.tag("cicd/spring-boot-sample:latest", "app-pipeline-dev/spring-boot-sample:latest")
+                openshift.tag("redhat-ssa/spring-boot-sample:latest", "app-pipeline-dev/spring-boot-sample:latest")
 
             }
 
@@ -78,7 +78,7 @@ pipeline {
         echo 'Deploying....'
         script {
           openshift.withCluster() {
-            openshift.withProject("app-pipeline-dev") {
+            openshift.withProject("redhat-ssa") {
 
               def deployment = openshift.selector("dc", "spring-boot-sample")
 
@@ -111,7 +111,7 @@ pipeline {
                  https://github.com/jenkinsci/openshift-client-plugin/blob/master/README.md#configuring-an-openshift-cluster
                */
                sh """
-                     oc image mirror --insecure=true $REGISTRY_CRC/cicd/spring-boot-sample:latest $REGISTRY_OPENTLC/app-pipeline-hml/spring-boot-sample:latest 
+                     oc image mirror --insecure=true $REGISTRY_CRC/redhat-ssa/spring-boot-sample:latest $REGISTRY_OPENTLC/app-pipeline-hml/spring-boot-sample:latest 
                   """
               }
             }
