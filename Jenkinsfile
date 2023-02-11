@@ -107,7 +107,7 @@ pipeline {
                 openshift.withCluster('homol') {
                   openshift.withProject("app-pipeline-hml") {
                     echo "Usando projeto: app-pipeline-hml"
-                    openshift.raw("import-image", "app-pipeline-hml/spring-boot-sample:latest",
+                    openshift.raw("import-image", "app-pipeline-hml/spring-boot-sample:${BUILD_ID}",
                                                 "--from=default-route-openshift-image-registry.apps.dtcn.n14x.p1.openshiftapps.com/redhat-ssa/spring-boot-sample:latest", "insecure=true --confirm")
                   }
                 }
