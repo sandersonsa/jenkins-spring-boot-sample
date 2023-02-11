@@ -99,10 +99,19 @@ pipeline {
       }
     }
     stage('Promote to opentlc') {
-      steps {
+      steps {        
         //withDockerRegistry([credentialsId: "crc-user", url: "$REGISTRY_CRC"]) {
             ///withDockerRegistry([credentialsId: "opentlc-user", url: "$REGISTRY_OPENTLC"]) {
               script {
+              
+                openshift.withCluster('homol') {
+                  openshift.withProject("app-pipeline-hml") {
+                    echo "Usando projeto: app-pipeline-hml"
+                    openshift.raw("import-image", "app-pipeline-hml/spring-boot-sample:latest",
+                                                "--from=default-route-openshift-image-registry.apps.dtcn.n14x.p1.openshiftapps.com/redhat-ssa/spring-boot-sample:latest", "insecure=true --confirm")
+                  }
+                }
+              
                //usa ~/.docker/config.json gerado no passo de config
                
                /*
@@ -110,9 +119,15 @@ pipeline {
                  https://access.redhat.com/solutions/5686371
                  https://github.com/jenkinsci/openshift-client-plugin/blob/master/README.md#configuring-an-openshift-cluster
                */
-               sh """
-                     oc image mirror --insecure=true $REGISTRY_CRC/redhat-ssa/spring-boot-sample:latest $REGISTRY_OPENTLC/app-pipeline-hml/spring-boot-sample:latest 
-                  """
+
+              // oc import-image spring-boot-sample:latest
+              //   --from=default-route-openshift-image-registry.apps.dtcn.n14x.p1.openshiftapps.com/redhat-ssa/spring-boot-sample:latest
+              //   --insecure=true
+              //   --confirm
+               
+              //  sh """
+              //        oc image mirror --insecure=true $REGISTRY_CRC/redhat-ssa/spring-boot-sample:latest $REGISTRY_OPENTLC/app-pipeline-hml/spring-boot-sample:latest 
+              //     """
               }
             }
           //}
