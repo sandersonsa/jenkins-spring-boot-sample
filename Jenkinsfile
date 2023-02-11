@@ -18,28 +18,28 @@ pipeline {
         CRC= sh (returnStdout: true, script: "echo -n '$USER_CREDENTIALS_CRC_USR:$USER_CREDENTIALS_CRC_PSW' | base64 -w0").trim()
       }
 
-      // steps {
-      //   echo 'Configurations..'
+      steps {
+        echo 'Configurations..'
         
-      //   sh """
-      //         mkdir -p ~/.docker
-      //         cat << 'EOF' >~/.docker/config.json
-      //         {
-      //           "auths": {
-      //             "https://$REGISTRY_CRC": {
-      //               "auth": "$CRC",
-      //               "email": "you@example.com"
-      //             },
-      //             "https://$REGISTRY_OPENTLC": {
-      //               "auth": "$OPENTLC",
-      //               "email": "you@example.com"
-      //             }
-      //           }
-      //         }
-      //      """
+        // sh """
+        //       mkdir -p ~/.docker
+        //       cat << 'EOF' >~/.docker/config.json
+        //       {
+        //         "auths": {
+        //           "https://$REGISTRY_CRC": {
+        //             "auth": "$CRC",
+        //             "email": "you@example.com"
+        //           },
+        //           "https://$REGISTRY_OPENTLC": {
+        //             "auth": "$OPENTLC",
+        //             "email": "you@example.com"
+        //           }
+        //         }
+        //       }
+        //    """
 
-      //   sh "cat ~/.docker/config.json"  
-      // }
+        // sh "cat ~/.docker/config.json"  
+      }
     }
 
     stage('Build') {
