@@ -105,9 +105,9 @@ pipeline {
               script {
               
                 openshift.withCluster('homol') {
-                  openshift.withProject("app-pipeline-hml") {
-                    echo "Usando projeto: app-pipeline-hml"
-                    openshift.raw("import-image", "app-pipeline-hml/spring-boot-sample:${BUILD_ID}",
+                  openshift.withProject("${PROJECT_PROD}") {
+                    echo "Usando projeto: ${PROJECT_PROD}"
+                    openshift.raw("import-image", "${PROJECT_PROD}/spring-boot-sample:${BUILD_ID}",
                                                 "--from=default-route-openshift-image-registry.apps.dtcn.n14x.p1.openshiftapps.com/redhat-ssa/spring-boot-sample:latest", "insecure=true --confirm")
                   }
                 }
@@ -126,7 +126,7 @@ pipeline {
               //   --confirm
                
               //  sh """
-              //        oc image mirror --insecure=true $REGISTRY_CRC/redhat-ssa/spring-boot-sample:latest $REGISTRY_OPENTLC/app-pipeline-hml/spring-boot-sample:latest 
+              //        oc image mirror --insecure=true $REGISTRY_CRC/redhat-ssa/spring-boot-sample:latest $REGISTRY_OPENTLC/${PROJECT_PROD}/spring-boot-sample:latest 
               //     """
               }
             }
@@ -138,7 +138,7 @@ pipeline {
         echo 'Deploying on opentlc'
         script {
           openshift.withCluster('homol') {
-            openshift.withProject("app-pipeline-hml") {
+            openshift.withProject("${PROJECT_PROD}") {
 
               def deployment = openshift.selector("dc", "spring-boot-sample")
 
