@@ -105,10 +105,13 @@ pipeline {
               script {
               
                 openshift.withCluster('homol') {
+
                   openshift.withProject("${PROJECT_PROD}") {
-                    echo "Usando projeto: ${PROJECT_PROD}"
+                    
+                    echo "## Hello from project ${openshift.project()} in cluster ${openshift.cluster()} ##"
+                    
                     openshift.raw("import-image", "${PROJECT_PROD}/spring-boot-sample:${BUILD_ID}",
-                                                "--from=default-route-openshift-image-registry.apps.dtcn.n14x.p1.openshiftapps.com/redhat-ssa/spring-boot-sample:latest", "insecure=true --confirm")
+                                                "--from=default-route-openshift-image-registry.apps.dtcn.n14x.p1.openshiftapps.com/redhat-ssa/spring-boot-sample:${BUILD_ID}", "insecure=true --confirm")
                   }
                 }
               
